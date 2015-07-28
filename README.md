@@ -1,17 +1,18 @@
 Cumulative Distribution Function
 ===
-[![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Coverage Status][coveralls-image]][coveralls-url] [![Dependencies][dependencies-image]][dependencies-url]
+[![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Coverage Status][codecov-image]][codecov-url] [![Dependencies][dependencies-image]][dependencies-url]
 
 > [Gamma](https://en.wikipedia.org/wiki/Gamma_distribution) distribution [cumulative distribution function](https://en.wikipedia.org/wiki/Cumulative_distribution_function).
 
 The [cumulative distribution function](https://en.wikipedia.org/wiki/Cumulative_distribution_function) for a [Gamma](https://en.wikipedia.org/wiki/Gamma_distribution) random variable is
 
-<div class="equation" align="center" data-raw-text="" data-equation="eq:cdf">
-	<img src="" alt="Cumulative distribution function for a Gamma distribution.">
+<div class="equation" align="center" data-raw-text="
+    F(x;\alpha,\beta) = \int_0^x f(u;\alpha,\beta)\,du= \frac{\gamma(\alpha, \beta x)}{\Gamma(\alpha)}" data-equation="eq:cdf">
+	<img src="https://cdn.rawgit.com/distributions-io/gamma-cdf/7adce37a26ded603a7c3d9ca08171f4cbbf61522/docs/img/eqn.svg" alt="Cumulative distribution function for a Gamma distribution.">
 	<br>
 </div>
 
-where `alpha` is the shape parameter and `beta` is the rate parameter.
+where `alpha` is the shape parameter and `beta` is the rate parameter of the distribution. `gamma` is the lower [incomplete gamma function](https://github.com/compute-io/gammainc).
 
 ## Installation
 
@@ -40,32 +41,32 @@ var matrix = require( 'dstructs-matrix' ),
 	i;
 
 out = cdf( 1 );
-// returns
+// returns ~0.632
 
-x = [ -4, -2, 0, 2, 4 ];
+x = [ -1, 0, 1, 2, 3 ];
 out = cdf( x );
-// returns [...]
+// returns [ 0, 0, ~0.632, ~0.865, ~0.95 ]
 
 x = new Float32Array( x );
 out = cdf( x );
-// returns Float64Array( [...] )
+// returns Float64Array( [0,0,~0.632,~0.865,~0.95] )
 
 x = new Float32Array( 6 );
 for ( i = 0; i < 6; i++ ) {
-	x[ i ] = i - 3;
+	x[ i ] = i;
 }
 mat = matrix( x, [3,2], 'float32' );
 /*
-	[ -3 -2
-	  -1  0
-	   1  2 ]
+	[ 0 1
+	  2 3
+	  4 5 ]
 */
 
 out = cdf( mat );
 /*
-	[
-
-	   ]
+	[  0     ~0.632
+	  ~0.865 ~0.95
+	  ~0.982 ~0.993 ]
 */
 ```
 
@@ -82,24 +83,24 @@ The function accepts the following `options`:
 A [Gamma](https://en.wikipedia.org/wiki/Gamma_distribution) distribution is a function of 2 parameter(s): `alpha`(shape parameter) and `beta`(rate parameter). By default, `alpha` is equal to `1` and `beta` is equal to `1`. To adjust either parameter, set the corresponding option(s).
 
 ``` javascript
-var x = [ -4, -2, 0, 2, 4 ];
+var x = [ -1, 0, 1, 2, 3 ];
 
 var out = cdf( x, {
 	'alpha': 6,
-	'beta': 1
+	'beta': 2
 });
-// returns [...]
+// returns [ 0, 0, ~0.0166, ~0.215, ~0.554 ]
 ```
 
 For non-numeric `arrays`, provide an accessor `function` for accessing `array` values.
 
 ``` javascript
 var data = [
-	[0,-4],
-	[1,-2],
-	[2,0],
+	[0,-1],
+	[1,0],
+	[2,1],
 	[3,2],
-	[4,4],
+	[4,3],
 ];
 
 function getValue( d, i ) {
@@ -109,7 +110,7 @@ function getValue( d, i ) {
 var out = cdf( data, {
 	'accessor': getValue
 });
-// returns [...]
+// returns [ 0, 0, ~0.632, ~0.865, ~0.95 ]
 ```
 
 
@@ -117,11 +118,11 @@ To [deepset](https://github.com/kgryte/utils-deep-set) an object `array`, provid
 
 ``` javascript
 var data = [
-	{'x':[0,-4]},
-	{'x':[1,-2]},
-	{'x':[2,0]},
+	{'x':[0,-1]},
+	{'x':[1,0]},
+	{'x':[2,1]},
 	{'x':[3,2]},
-	{'x':[4,4]},
+	{'x':[4,3]},
 ];
 
 var out = cdf( data, {
@@ -130,11 +131,11 @@ var out = cdf( data, {
 });
 /*
 	[
-		{'x':[0,]},
-		{'x':[1,]},
-		{'x':[2,]},
-		{'x':[3,]},
-		{'x':[4,]},
+		{'x':[0,0]},
+		{'x':[1,0]},
+		{'x':[2,~0.632]},
+		{'x':[3,~0.865]},
+		{'x':[4,~0.95]},
 	]
 */
 
@@ -147,18 +148,18 @@ By default, when provided a [`typed array`](https://developer.mozilla.org/en-US/
 ``` javascript
 var x, out;
 
-x = new Float64Array( [-4,-2,0,2,4] );
+x = new Float64Array( [-1,0,1,2,3] );
 
 out = cdf( x, {
 	'dtype': 'float32'
 });
-// returns Float32Array( [...] )
+// returns Float32Array( [0,0,~0.632,~0.865,~0.95] )
 
 // Works for plain arrays, as well...
-out = cdf( [-4,-2,0,2,4], {
+out = cdf( [-1,0,1,2,3], {
 	'dtype': 'float32'
 });
-// returns Float32Array( [...] )
+// returns Float32Array( [0,0,~0.632,~0.865,~0.95] )
 ```
 
 By default, the function returns a new data structure. To mutate the input data structure (e.g., when input values can be discarded or when optimizing memory usage), set the `copy` option to `false`.
@@ -170,34 +171,34 @@ var bool,
 	x,
 	i;
 
-x = [ -4, -2, 0, 2, 4 ];
+x = [ -1, 0, 1, 2, 3 ];
 
 out = cdf( x, {
 	'copy': false
 });
-// returns [...]
+// returns [ 0, 0, ~0.632, ~0.865, ~0.95 ]
 
 bool = ( x === out );
 // returns true
 
 x = new Float32Array( 6 );
 for ( i = 0; i < 6; i++ ) {
-	x[ i ] = i - 3 ;
+	x[ i ] = i;
 }
 mat = matrix( x, [3,2], 'float32' );
 /*
-	[ -3 -2
-	  -1  0
-	   1  2 ]
+	[ 0 1
+	  2 3
+	  4 5 ]
 */
 
 out = cdf( mat, {
 	'copy': false
 });
 /*
-	[
-
-	   ]
+	[  0     ~0.632
+	  ~0.865 ~0.95
+	  ~0.982 ~0.993 ]
 */
 
 bool = ( mat === out );
@@ -267,7 +268,7 @@ var data,
 // Plain arrays...
 data = new Array( 10 );
 for ( i = 0; i < data.length; i++ ) {
-	data[ i ] = i - 5;
+	data[ i ] = i;
 }
 out = cdf( data );
 
@@ -298,7 +299,7 @@ out = cdf( data, {
 // Typed arrays...
 data = new Float32Array( 10 );
 for ( i = 0; i < data.length; i++ ) {
-	data[ i ] = i - 5;
+	data[ i ] = i;
 }
 out = cdf( data );
 
@@ -364,8 +365,8 @@ Copyright &copy; 2015. The [Compute.io](https://github.com/compute-io) Authors.
 [travis-image]: http://img.shields.io/travis/distributions-io/gamma-cdf/master.svg
 [travis-url]: https://travis-ci.org/distributions-io/gamma-cdf
 
-[coveralls-image]: https://img.shields.io/coveralls/distributions-io/gamma-cdf/master.svg
-[coveralls-url]: https://coveralls.io/r/distributions-io/gamma-cdf?branch=master
+[codecov-image]: https://img.shields.io/codecov/github/distributions-io/gamma-cdf/master.svg
+[codecov-url]: https://codecov.io/github/distributions-io/gamma-cdf?branch=master
 
 [dependencies-image]: http://img.shields.io/david/distributions-io/gamma-cdf.svg
 [dependencies-url]: https://david-dm.org/distributions-io/gamma-cdf
