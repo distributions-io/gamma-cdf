@@ -1,8 +1,8 @@
 options( digits = 16 )
 library( jsonlite )
 
-alpha = 1
-beta = 1
+alpha = 3
+beta = 3
 x = 0:24
 y = pgamma( x, alpha, beta )
 

@@ -1,9 +1,9 @@
 options( digits = 16 )
 library( jsonlite )
 
-alpha = 1
+alpha = 9
 beta = 1
-x = c( -5, -2.5, 0, 2.5, 5 )
+x = c( -2.5, 0, 2.5, 5, 10 )
 y = pgamma( x, alpha, beta )
 
 cat( y, sep = ",\n" )

@@ -138,10 +138,10 @@ describe( 'distributions-gamma-cdf', function tests() {
 			for ( var i = 0; i < data.length; i++ ) {
 				actual =  cdf( data[ i ], {
 					'alpha': validationData.alpha,
-		'beta': validationData.beta
+					'beta': validationData.beta
 				});
 				if ( isFiniteNumber( actual ) && isFiniteNumber( expected[ i ] ) ) {
-					assert.closeTo( actual, expected[ i ] , 1e-14 );
+					assert.closeTo( actual, expected[ i ] , 1e-12 );
 				}
 			}
 	});
@@ -162,26 +162,26 @@ describe( 'distributions-gamma-cdf', function tests() {
 
 		actual = cdf( data, {
 			'alpha': validationData.alpha,
-		'beta': validationData.beta
+			'beta': validationData.beta
 		});
 		assert.notEqual( actual, data );
 
 		for ( i = 0; i < actual.length; i++ ) {
 			if ( isFiniteNumber( actual[ i ] ) && isFiniteNumber( expected[ i ] ) ) {
-				assert.closeTo( actual[ i ], expected[ i ], 1e-15 );
+				assert.closeTo( actual[ i ], expected[ i ], 1e-12 );
 			}
 		}
 		// Mutate...
 		actual = cdf( data, {
 			'copy': false,
 			'alpha': validationData.alpha,
-		'beta': validationData.beta
+			'beta': validationData.beta
 		});
 		assert.strictEqual( actual, data );
 
 		for ( i = 0; i < data.length; i++ ) {
 			if ( isFiniteNumber( data[ i ] ) && isFiniteNumber( expected[ i ] ) ) {
-				assert.closeTo( data[ i ], expected[ i ], 1e-15 );
+				assert.closeTo( data[ i ], expected[ i ], 1e-12 );
 			}
 		}
 	});
@@ -201,13 +201,13 @@ describe( 'distributions-gamma-cdf', function tests() {
 
 		actual = cdf( data, {
 			'alpha': validationData.alpha,
-		'beta': validationData.beta
+			'beta': validationData.beta
 		});
 		assert.notEqual( actual, data );
 
 		for ( i = 0; i < actual.length; i++ ) {
 			if ( isFiniteNumber( actual[ i ] ) && isFiniteNumber( expected[ i ] ) ) {
-				assert.closeTo( actual[ i ], expected[ i ], 1e-14 );
+				assert.closeTo( actual[ i ], expected[ i ], 1e-12 );
 			}
 		}
 
@@ -215,7 +215,7 @@ describe( 'distributions-gamma-cdf', function tests() {
 		actual = cdf( data, {
 			'copy': false,
 			'alpha': validationData.alpha,
-		'beta': validationData.beta
+			'beta': validationData.beta
 		});
 		expected = new Float32Array( validationData.expected.map( function( d ) {
 			return d === 'Inf' ? Infinity : d;
@@ -224,7 +224,7 @@ describe( 'distributions-gamma-cdf', function tests() {
 
 		for ( i = 0; i < actual.length; i++ ) {
 			if ( isFiniteNumber( actual[ i ] ) && isFiniteNumber( expected[ i ] ) ) {
-				assert.closeTo( actual[ i ], expected[ i ], 1e-14 );
+				assert.closeTo( actual[ i ], expected[ i ], 1e-12 );
 			}
 		}
 	});
@@ -245,7 +245,7 @@ describe( 'distributions-gamma-cdf', function tests() {
 		actual = cdf( data, {
 			'dtype': 'float32',
 			'alpha': validationData.alpha,
-		'beta': validationData.beta
+			'beta': validationData.beta
 		});
 
 		assert.notEqual( actual, data );
@@ -253,7 +253,7 @@ describe( 'distributions-gamma-cdf', function tests() {
 
 		for ( i = 0; i < actual.length; i++ ) {
 			if ( isFiniteNumber( actual[ i ] ) && isFiniteNumber( expected[ i ] ) ) {
-				assert.closeTo( actual[ i ], expected[ i ], 1e-14 );
+				assert.closeTo( actual[ i ], expected[ i ], 1e-12 );
 			}
 		}
 	});
@@ -276,13 +276,13 @@ describe( 'distributions-gamma-cdf', function tests() {
 		actual = cdf( data, {
 			'accessor': getValue,
 			'alpha': validationData.alpha,
-		'beta': validationData.beta
+			'beta': validationData.beta
 		});
 		assert.notEqual( actual, data );
 
 		for ( i = 0; i < actual.length; i++ ) {
 			if ( isFiniteNumber( actual[ i ] ) && isFiniteNumber( expected[ i ] ) ) {
-				assert.closeTo( actual[ i ], expected[ i ], 1e-14 );
+				assert.closeTo( actual[ i ], expected[ i ], 1e-12 );
 			}
 		}
 
@@ -291,13 +291,13 @@ describe( 'distributions-gamma-cdf', function tests() {
 			'accessor': getValue,
 			'copy': false,
 			'alpha': validationData.alpha,
-		'beta': validationData.beta
+			'beta': validationData.beta
 		});
 		assert.strictEqual( actual, data );
 
 		for ( i = 0; i < actual.length; i++ ) {
 			if ( isFiniteNumber( actual[ i ] ) && isFiniteNumber( expected[ i ] ) ) {
-				assert.closeTo( actual[ i ], expected[ i ], 1e-14 );
+				assert.closeTo( actual[ i ], expected[ i ], 1e-12 );
 			}
 		}
 
@@ -320,7 +320,7 @@ describe( 'distributions-gamma-cdf', function tests() {
 		actual = cdf( data, {
 			'path': 'x.1',
 			'alpha': validationData.alpha,
-		'beta': validationData.beta
+			'beta': validationData.beta
 		});
 
 		expected = validationData.expected
@@ -335,7 +335,7 @@ describe( 'distributions-gamma-cdf', function tests() {
 
 		for ( i = 0; i < data.length; i++ ) {
 			if ( isFiniteNumber( data[ i ].x[ 1 ] ) && isFiniteNumber( expected[ i ].x[ 1 ] ) ) {
-				assert.closeTo( data[ i ].x[ 1 ], expected[ i ].x[ 1 ], 1e-14 );
+				assert.closeTo( data[ i ].x[ 1 ], expected[ i ].x[ 1 ], 1e-12 );
 			}
 		}
 
@@ -347,13 +347,13 @@ describe( 'distributions-gamma-cdf', function tests() {
 			'path': 'x/1',
 			'sep': '/',
 			'alpha': validationData.alpha,
-		'beta': validationData.beta
+			'beta': validationData.beta
 		});
 		assert.strictEqual( actual, data );
 
 		for ( i = 0; i < data.length; i++ ) {
 			if ( isFiniteNumber( data[ i ].x[ 1 ] ) && isFiniteNumber( expected[ i ].x[ 1 ] ) ) {
-				assert.closeTo( data[ i ].x[ 1 ], expected[ i ].x[ 1 ], 1e-14, 'custom separator' );
+				assert.closeTo( data[ i ].x[ 1 ], expected[ i ].x[ 1 ], 1e-12, 'custom separator' );
 			}
 		}
 	});
@@ -374,12 +374,12 @@ describe( 'distributions-gamma-cdf', function tests() {
 		mat = matrix( d1, [5,5], 'float64' );
 		out = cdf( mat, {
 			'alpha': validationData.alpha,
-		'beta': validationData.beta
+			'beta': validationData.beta
 		});
 
 		for ( i = 0; i < out.length; i++ ) {
 			if ( isFiniteNumber( out.data[ i ] ) && isFiniteNumber( d2[ i ] ) ) {
-				assert.closeTo( out.data[ i ], d2[ i], 1e-14 );
+				assert.closeTo( out.data[ i ], d2[ i], 1e-12 );
 			}
 		}
 
@@ -387,13 +387,13 @@ describe( 'distributions-gamma-cdf', function tests() {
 		out = cdf( mat, {
 			'copy': false,
 			'alpha': validationData.alpha,
-		'beta': validationData.beta
+			'beta': validationData.beta
 		});
 		assert.strictEqual( mat, out );
 
 		for ( i = 0; i < out.length; i++ ) {
 			if ( isFiniteNumber( out.data[ i ] ) && isFiniteNumber( d2[ i ] ) ) {
-				assert.closeTo( out.data[ i ], d2[ i ], 1e-14 );
+				assert.closeTo( out.data[ i ], d2[ i ], 1e-12 );
 			}
 		}
 	});
@@ -413,14 +413,14 @@ describe( 'distributions-gamma-cdf', function tests() {
 		out = cdf( mat, {
 			'dtype': 'float32',
 			'alpha': validationData.alpha,
-		'beta': validationData.beta
+			'beta': validationData.beta
 		});
 
 		assert.strictEqual( out.dtype, 'float32' );
 
 		for ( i = 0; i < out.length; i++ ) {
 			if ( isFiniteNumber( out.data[ i ] ) && isFiniteNumber( d2[ i ] ) ) {
-				assert.closeTo( out.data[ i ], d2[ i ], 1e-14 );
+				assert.closeTo( out.data[ i ], d2[ i ], 1e-12 );
 			}
 		}
 	});
